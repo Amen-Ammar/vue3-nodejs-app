@@ -1,0 +1,19 @@
+{
+    "name": "qualipro-app",
+    "version": "0.0.1",
+    "description": "",
+    "author": "Amen Ammar",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "start": "concurrently 'npm:serve:frontend' 'npm:serve:backend'",
+        "serve:frontend": "cd qualipro-client && npm run dev",
+        "serve:backend": "cd qualipro-server && npm start",
+        "install": "concurrently 'npm:install:frontend' 'npm:install:backend'",
+        "install:frontend": "cd qualipro-client && npm install",
+        "install:backend": "cd qualipro-server && npm install"
+    },
+    "devDependencies": {
+        "concurrently": "^7.2.1"
+    }
+}
