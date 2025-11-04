@@ -21,13 +21,11 @@ async function seedDatabase() {
 
     const adminRole = roles.find((r) => r.roleCode === 'ADM');
 
-    const adminPassword = await bcrypt.hash('admin', 10);
-
     await User.create({
       first_name: 'System',
       last_name: 'Admin',
       email: 'admin@example.com',
-      password: adminPassword,
+      password: 'admin',
       roleId: adminRole.id,
     });
 

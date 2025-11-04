@@ -15,6 +15,7 @@ module.exports = {
             throw error;
         }
 
+        console.log({ user: user.password })
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             const error = new Error("Invalid user credentials");

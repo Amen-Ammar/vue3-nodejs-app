@@ -41,7 +41,6 @@ exports.refreshToken = async (req, res) => {
       true
     );
   } catch (error) {
-    console.log({ error });
     CustomResponse(
       res,
       error.statusCode || 500,
