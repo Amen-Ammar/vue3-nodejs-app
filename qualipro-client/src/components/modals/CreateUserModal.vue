@@ -47,7 +47,6 @@ function close() {
 }
 
 async function submit() {
-    // Validation
     if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.password) {
         Notify.create({
             type: 'warning',
