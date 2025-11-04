@@ -6,14 +6,12 @@
             <q-input v-model="form.first_name" label="First Name" outlined class="mb-3" />
             <q-input v-model="form.last_name" label="Last Name" outlined class="mb-3" />
             <q-input v-model="form.email" label="Email" type="email" outlined class="mb-3" />
-            <q-select v-model="selectedRole" :options="roles" option-value="id" option-label="roleName"
-                label="Select Role" outlined class="mb-3" />
-            <q-input outlined v-model="displayJoinDate" label="Joined Date" hint="DD/MM/YYYY" class="mb-3" readonly>
+            <q-select v-model="selectedRole" :options="roles" option-value="id" option-label="roleName" label="Select Role" outlined class="mb-3" />
+            <q-input outlined v-model="displayJoinDate" label="Joined Date" class="mb-3" readonly>
                 <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                         <q-popup-proxy v-model="calendarOpen" transition-show="scale" transition-hide="scale">
-                            <q-date v-model="form.join_date" mask="YYYY-MM-DD"
-                                @update:model-value="val => displayJoinDate = val ? moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''" />
+                            <q-date v-model="form.join_date" mask="YYYY-MM-DD" @update:model-value="onDateChange" />
                         </q-popup-proxy>
                     </q-icon>
                 </template>
@@ -26,8 +24,9 @@
         </q-card>
     </q-dialog>
 </template>
+
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useRoleStore } from '@/stores/roleStore'
 import { Notify } from 'quasar'
@@ -37,7 +36,7 @@ const show = ref(false)
 const form = ref({})
 const selectedRole = ref(null)
 const roles = ref([])
-const calendarOpen = ref(false);
+const calendarOpen = ref(false)
 const displayJoinDate = ref('')
 
 const userStore = useUserStore()
@@ -48,22 +47,18 @@ onMounted(async () => {
     roles.value = roleStore.roles
 })
 
-watch(
-    () => roleStore.roles,
-    (newRoles) => {
-        roles.value = newRoles
-    },
-    () => form.value.join_date,
-    (newDate) => {
-        displayJoinDate.value = newDate ? moment(newDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
-    },
-    { immediate: true }
-)
+const onDateChange = (val) => {
+    form.value.join_date = val
+    displayJoinDate.value = val ? moment.utc(val, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
+}
 
 const open = (user) => {
     form.value = { ...user }
     selectedRole.value = user.role ? user.role : null
-    displayJoinDate.value = form.value.join_date ? moment(form.value.join_date, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
+    displayJoinDate.value = form.value.join_date
+        ? moment.utc(form.value.join_date, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        : ''
+    calendarOpen.value = false
     show.value = true
 }
 
@@ -72,20 +67,10 @@ const close = () => {
 }
 
 const submit = async () => {
-    if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.roleId || !form.value.join_date) {
+    if (!form.value.first_name || !form.value.last_name || !form.value.email || !selectedRole.value || !form.value.join_date) {
         Notify.create({
             type: 'warning',
             message: 'Please fill in all fields',
-            timeout: 3000,
-            position: 'top'
-        })
-        return
-    }
-
-    if (!selectedRole.value) {
-        Notify.create({
-            type: 'warning',
-            message: 'Please select a role',
             timeout: 3000,
             position: 'top'
         })
@@ -103,6 +88,13 @@ const submit = async () => {
         })
         close()
     } catch (err) {
+        const message = err.response?.data?.result?.error || 'Failed to edit user'
+        Notify.create({
+            type: 'negative',
+            message,
+            timeout: 5000,
+            position: 'top'
+        })
         console.error(err)
     }
 }

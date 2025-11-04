@@ -8,12 +8,11 @@
             <q-input v-model="form.email" label="Email" type="email" outlined class="mb-3" />
             <q-input v-model="form.password" label="Password" type="password" outlined class="mb-3" />
             <q-select v-model="selectedRole" :options="roles" option-value="id" option-label="roleName" label="Select Role" outlined class="mb-3" />
-            <q-input outlined v-model="form.join_date" label="Joined Date" mask="####-##-##" hint="YYYY-MM-DD"
-                class="mb-3" readonly>
+            <q-input outlined v-model="displayJoinDate" label="Joined Date" class="mb-3" readonly>
                 <template v-slot:append>
                     <q-icon name="event" class="cursor-pointer">
                         <q-popup-proxy v-model="calendarOpen" transition-show="scale" transition-hide="scale">
-                            <q-date v-model="form.join_date" mask="YYYY-MM-DD" />
+                            <q-date v-model="form.join_date" @update:model-value="val => displayJoinDate = val ? moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''"/>
                         </q-popup-proxy>
                     </q-icon>
                 </template>
@@ -49,6 +48,7 @@ const roleStore = useRoleStore()
 const roles = ref([])
 const selectedRole = ref(null)
 const calendarOpen = ref(false)
+const displayJoinDate = ref('')
 
 onMounted(async () => {
     await roleStore.fetchRoles()
@@ -66,7 +66,7 @@ const close = () => {
 }
 
 const submit = async () => {
-    if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.password || !selectedRole.value.id || !form.value.join_date) {
+    if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.password || !selectedRole.value || !form.value.join_date) {
         Notify.create({
             type: 'warning',
             message: 'Please fill in all fields',
