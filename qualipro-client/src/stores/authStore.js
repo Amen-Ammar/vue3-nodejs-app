@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        apiUrl: 'http://localhost/api',
+        apiUrl: 'http://localhost:3000/api',
         user: null,
         token: null,
         loading: false,
@@ -16,8 +16,8 @@ export const useAuthStore = defineStore('auth', {
             this.error = null
             try {
                 const res = await axios.post(`${this.apiUrl}/login`, { email, password })
-                this.user = res.data.user
-                this.token = res.data.accessToken
+                this.user = res.data.result.user
+                this.token = res.data.result.accessToken
                 localStorage.setItem('token', this.token)
                 localStorage.setItem('user', JSON.stringify(this.user))
                 return true
