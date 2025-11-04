@@ -59,15 +59,17 @@ VITE_APP_NAME=QualiproApp
 ### 2. Install Dependencies
 
 From the project root, run:
+```npm install```
 
-npm install
-
+### 3. Seeding Roles and Admin account
 cd qualipro-server/src/seeds
-node seed.js
+```node seed.js```
 
-npm start
+### 4. Concurrently Run BOTH projects
+From the project root, run:
+```npm start```
 
-# OR
+# OR run each project separately
 npm run serve:frontend   # Frontend only
 npm run serve:backend    # Backend only
 
