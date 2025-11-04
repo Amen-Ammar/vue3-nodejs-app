@@ -1,11 +1,15 @@
 # Qualipro App
 
 **Author:** Amen Ammar  
-**Version:** 0.0.1
+**Version:** 1.0.0
 
-A full-stack project with a frontend and backend, using Quasar/Vue.js for the frontend and Node.js/Sequelize for the backend.
+A full-stack project with a frontend and backend,
+using:
+- Tailwind/Quasar/Vue.js with Pinia for the frontend.
+- Node.js/Sequelize for the backend.
 
 ---
+
 ```bash
 ## Project Structure
 root
@@ -13,7 +17,6 @@ root
 ├─ qualipro-client/ # Frontend (Vue.js + TailwindCSS + Quasar + Pinia)
 ├─ qualipro-server/ # Backend (Node.js + MySQL + Express + Sequelize)
 └─ package.json # Root scripts for concurrently
-
 
 ---
 
@@ -54,7 +57,6 @@ npm install
 
 cd qualipro-server/src/seeds
 node seed.js
-
 
 npm start
 
