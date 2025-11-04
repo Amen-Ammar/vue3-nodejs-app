@@ -27,6 +27,7 @@ async function seedDatabase() {
       email: 'admin@example.com',
       password: 'admin',
       roleId: adminRole.id,
+      join_date: "04/11/2025"
     });
 
     console.log('✅ Admin user created successfully.');

@@ -29,7 +29,7 @@
 
         <q-item>
           <q-item-section>Join Date</q-item-section>
-          <q-item-section side>{{ user.join_date || user.createdAt }}</q-item-section>
+          <q-item-section side>{{ user.join_date ? moment(user.join_date).format('DD/MM/YYYY') : '' }}</q-item-section>
         </q-item>
 
         <q-item v-if="user.role">
@@ -38,7 +38,6 @@
         </q-item>
       </q-list>
 
-      <!-- Footer -->
       <q-card-actions align="right">
         <q-btn flat label="Close" color="primary" @click="close()" />
       </q-card-actions>
@@ -48,6 +47,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import moment from 'moment'
 
 const show = ref(false)
 const user = ref({})

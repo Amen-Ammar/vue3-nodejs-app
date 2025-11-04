@@ -7,8 +7,17 @@
             <q-input v-model="form.last_name" label="Last Name" outlined class="mb-3" />
             <q-input v-model="form.email" label="Email" type="email" outlined class="mb-3" />
             <q-input v-model="form.password" label="Password" type="password" outlined class="mb-3" />
-            <q-select v-model="selectedRole" :options="roles" option-value="id" option-label="roleName"
-                label="Select Role" outlined class="mb-3" />
+            <q-select v-model="selectedRole" :options="roles" option-value="id" option-label="roleName" label="Select Role" outlined class="mb-3" />
+            <q-input outlined v-model="form.join_date" label="Joined Date" mask="####-##-##" hint="YYYY-MM-DD"
+                class="mb-3" readonly>
+                <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy v-model="calendarOpen" transition-show="scale" transition-hide="scale">
+                            <q-date v-model="form.join_date" mask="YYYY-MM-DD" />
+                        </q-popup-proxy>
+                    </q-icon>
+                </template>
+            </q-input>
 
             <div class="flex justify-end gap-2 mt-4">
                 <q-btn flat label="Cancel" color="gray" @click="close()" />
@@ -23,13 +32,23 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useRoleStore } from '@/stores/roleStore'
 import { Notify } from 'quasar'
+import moment from 'moment'
 
 const show = ref(false)
-const form = ref({ first_name: '', last_name: '', email: '', password: '', roleId: null })
+const form = ref({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    roleId: null,
+    join_date: ''
+})
+
 const userStore = useUserStore()
 const roleStore = useRoleStore()
-const selectedRole = ref(null)
 const roles = ref([])
+const selectedRole = ref(null)
+const calendarOpen = ref(false)
 
 onMounted(async () => {
     await roleStore.fetchRoles()
@@ -37,7 +56,7 @@ onMounted(async () => {
 })
 
 const open = () => {
-    form.value = { first_name: '', last_name: '', email: '', password: '', roleId: null }
+    form.value = { first_name: '', last_name: '', email: '', password: '', roleId: null, join_date: '' }
     selectedRole.value = null
     show.value = true
 }
@@ -47,7 +66,7 @@ const close = () => {
 }
 
 const submit = async () => {
-    if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.password) {
+    if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.password || !selectedRole.value.id || !form.value.join_date) {
         Notify.create({
             type: 'warning',
             message: 'Please fill in all fields',
@@ -56,16 +75,8 @@ const submit = async () => {
         })
         return
     }
-
-    if (!selectedRole.value) {
-        Notify.create({
-            type: 'warning',
-            message: 'Please select a role',
-            timeout: 3000,
-            position: 'top'
-        })
-        return
-    }
+    
+    form.value.roleId = selectedRole.value
 
     try {
         await userStore.createUser({ ...form.value, roleId: selectedRole.value.id })

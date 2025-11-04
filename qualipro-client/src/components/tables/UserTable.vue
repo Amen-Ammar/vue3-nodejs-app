@@ -51,6 +51,7 @@ import { Notify, Dialog } from 'quasar'
 import CreateUserModal from '@/components/modals/CreateUserModal.vue'
 import ViewUserModal from '@/components/modals/ViewUserModal.vue'
 import EditUserModal from '@/components/modals/EditUserModal.vue'
+import moment from 'moment'
 
 const userStore = useUserStore()
 
@@ -66,7 +67,7 @@ const columns = [
     { name: 'avatar', label: 'Avatar', field: 'avatar', align: 'center' },
     { name: 'name', label: 'Full Name', field: row => `${row.first_name} ${row.last_name}`, align: 'left' },
     { name: 'email', label: 'Email', field: 'email', align: 'left' },
-    { name: 'join_date', label: 'Join Date', field: 'createdAt', align: 'left' },
+    { name: 'join_date', label: 'Join Date', field: row => row.join_date ? moment(row.join_date).format('DD/MM/YYYY') : '', align: 'left' },
     { name: 'actions', label: 'Actions', align: 'center' },
 ]
 

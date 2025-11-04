@@ -28,6 +28,10 @@ const User = sequelize.define('users', {
     type: DataTypes.STRING(255),
     allowNull: false,
   },
+  join_date: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
   roleId: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
