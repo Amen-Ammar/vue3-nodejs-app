@@ -3,7 +3,7 @@ const cors = require('cors');
 const http = require('http');
 const sequelize = require('./src/config');
 const config = require('./src/config/db.config');
-const userRoutes = require('./src/routes/user.routes');
+const routes = require('./src/routes');
 
 const app = express();
 app.use(
@@ -17,7 +17,7 @@ app.options('*', cors());
 
 app.use(express.json());
 
-app.use('/api', userRoutes);
+app.use('/api', routes);
 
 const PORT = config.server.port || 3000;
 

@@ -1,7 +1,6 @@
 require('dotenv').config();
 const userService = require('../services/user.service');
 const CustomResponse = require('../utils/responseHandler');
-const { Role } = require('../models')
 
 exports.login = async (req, res) => {
   try {
@@ -74,21 +73,6 @@ exports.getUsers = async (req, res) => {
     const users = await userService.getUsers(condition);
 
     CustomResponse(res, 200, users, true);
-  } catch (error) {
-    CustomResponse(
-      res,
-      error.statusCode || 500,
-      error.message || 'Internal server error.',
-      false
-    );
-  }
-};
-
-// logically missplaced for simplicity
-exports.getRoles = async (req, res) => {
-  try {
-    const roles = await Role.findAll();
-    CustomResponse(res, 200, roles, true);
   } catch (error) {
     CustomResponse(
       res,
