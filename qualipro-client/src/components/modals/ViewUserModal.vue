@@ -40,7 +40,7 @@
 
       <!-- Footer -->
       <q-card-actions align="right">
-        <q-btn flat label="Close" color="primary" @click="close" />
+        <q-btn flat label="Close" color="primary" @click="close()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -52,13 +52,13 @@ import { ref } from 'vue'
 const show = ref(false)
 const user = ref({})
 
-function open(data) {
-    user.value = data
-    show.value = true
+const open = (data) => {
+  user.value = data
+  show.value = true
 }
 
-function close() {
-    show.value = false
+const close = () => {
+  show.value = false
 }
 
 defineExpose({ open, close })

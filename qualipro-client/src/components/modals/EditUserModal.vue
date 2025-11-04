@@ -11,8 +11,8 @@
                 label="Select Role" outlined class="mb-3" />
 
             <div class="flex justify-end gap-2 mt-4">
-                <q-btn flat label="Cancel" color="gray" @click="close" />
-                <q-btn color="primary" label="Save" @click="submit" />
+                <q-btn flat label="Cancel" color="gray" @click="close()" />
+                <q-btn color="primary" label="Save" @click="submit()" />
             </div>
         </q-card>
     </q-dialog>
@@ -44,17 +44,17 @@ watch(
     { immediate: true }
 )
 
-function open(user) {
+const open = (user) => {
     form.value = { ...user }
     selectedRole.value = user.role ? user.role : null
     show.value = true
 }
 
-function close() {
+const close = () => {
     show.value = false
 }
 
-async function submit() {
+const submit = async () => {
     if (!form.value.first_name || !form.value.last_name || !form.value.email) {
         Notify.create({
             type: 'warning',

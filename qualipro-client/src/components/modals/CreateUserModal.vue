@@ -11,8 +11,8 @@
                 label="Select Role" outlined class="mb-3" />
 
             <div class="flex justify-end gap-2 mt-4">
-                <q-btn flat label="Cancel" color="gray" @click="close" />
-                <q-btn color="primary" label="Create" @click="submit" />
+                <q-btn flat label="Cancel" color="gray" @click="close()" />
+                <q-btn color="primary" label="Create" @click="submit()" />
             </div>
         </q-card>
     </q-dialog>
@@ -36,17 +36,17 @@ onMounted(async () => {
     roles.value = roleStore.roles
 })
 
-function open() {
+const open = () => {
     form.value = { first_name: '', last_name: '', email: '', password: '', roleId: null }
     selectedRole.value = null
     show.value = true
 }
 
-function close() {
+const close = () => {
     show.value = false
 }
 
-async function submit() {
+const submit = async () => {
     if (!form.value.first_name || !form.value.last_name || !form.value.email || !form.value.password) {
         Notify.create({
             type: 'warning',
