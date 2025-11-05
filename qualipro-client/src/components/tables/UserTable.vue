@@ -36,6 +36,18 @@
                     </q-btn>
                 </q-td>
             </template>
+            <template v-slot:bottom>
+                <div class="q-pa-sm flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span>Rows per page:</span>
+                        <q-select v-model="pagination.rowsPerPage" :options="[5, 10, 20, 50]" dense outlined
+                            style="width: 80px" @update:model-value="onRowsPerPageChange" />
+                    </div>
+
+                    <q-pagination v-model="pagination.page" :max="totalPages" max-pages="7" boundary-numbers
+                        @update:model-value="onPageChange" />
+                </div>
+            </template>
         </q-table>
 
         <CreateUserModal ref="createModal" @saved="refreshUsers" />
@@ -73,26 +85,7 @@ const columns = [
 
 const selectedUser = ref(null)
 
-const pagination = ref({
-    page: 1,
-    rowsPerPage: 10,
-    rowsNumber: userStore.total,
-})
-
-const users = computed(() => userStore.users)
-const loading = computed(() => userStore.loading)
-
-const fetchUsers = async (page = 1, limit = 10) => {
-    await userStore.getUsers({ page, limit })
-    pagination.value.rowsNumber = userStore.total
-}
-
 const refreshUsers = () => fetchUsers(pagination.value.page, pagination.value.rowsPerPage)
-
-const onRequest = async (params) => {
-    await fetchUsers(params.pagination.page, params.pagination.rowsPerPage)
-    pagination.value.page = params.pagination.page
-}
 
 const deleteUser = (user) => {
     Dialog.create({
@@ -109,6 +102,40 @@ const deleteUser = (user) => {
             Notify.create({ type: 'negative', message: 'Failed to delete user' })
         }
     })
+}
+
+const pagination = ref({
+    page: 1,
+    rowsPerPage: 10,
+    rowsNumber: userStore.total,
+})
+
+const users = computed(() => userStore.users)
+const loading = computed(() => userStore.loading)
+
+const totalPages = computed(() =>
+    Math.ceil(userStore.total / pagination.value.rowsPerPage)
+)
+
+const fetchUsers = async (page = 1, limit = 10) => {
+    await userStore.getUsers({ page, limit })
+    pagination.value.rowsNumber = userStore.total
+}
+
+const onRequest = async (params) => {
+    pagination.value.page = params.pagination.page
+    pagination.value.rowsPerPage = params.pagination.rowsPerPage
+    await fetchUsers(pagination.value.page, pagination.value.rowsPerPage)
+}
+
+const onPageChange = async (page) => {
+    pagination.value.page = page
+    await fetchUsers(page, pagination.value.rowsPerPage)
+}
+
+const onRowsPerPageChange = async () => {
+    pagination.value.page = 1
+    await fetchUsers(pagination.value.page, pagination.value.rowsPerPage)
 }
 
 onMounted(() => fetchUsers())
