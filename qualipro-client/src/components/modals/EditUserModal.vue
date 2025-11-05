@@ -76,7 +76,7 @@ const submit = async () => {
             type: 'warning',
             message: 'Please fill in all fields',
             timeout: 3000,
-            position: 'top'
+            position: 'top-right'
         })
         return
     }

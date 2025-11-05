@@ -11,7 +11,7 @@
         <q-table flat bordered :rows="users" :columns="columns" row-key="id" :loading="loading" :pagination="pagination"
             @request="onRequest">
             <template #body-cell-avatar="props">
-                <q-td>
+                <q-td class="text-center space-x-2">
                     <img :src="props.row.avatar || 'https://ui-avatars.com/api/?name=default%20avatar&background=random'"
                         class="w-10 h-10 rounded-full object-cover" />
                 </q-td>
