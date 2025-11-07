@@ -1,4 +1,4 @@
-# Qualipro App
+# Boilerplate App
 
 **Author:** Amen Ammar  
 **Version:** 1.0.0
@@ -71,4 +71,5 @@ npm start
 # OR run each project separately
 npm run serve:frontend   # Frontend only
 npm run serve:backend    # Backend only
+
 
