@@ -1,5 +1,5 @@
 {
-    "name": "qualipro-app",
+    "name": "boilerplate-app",
     "version": "1.0.0",
     "description": "",
     "author": "Amen Ammar",
@@ -7,11 +7,11 @@
     "license": "MIT",
     "scripts": {
         "start": "concurrently 'npm:serve:frontend' 'npm:serve:backend'",
-        "serve:frontend": "cd qualipro-client && npm run dev",
-        "serve:backend": "cd qualipro-server && npm start",
+        "serve:frontend": "cd client && npm run dev",
+        "serve:backend": "cd server && npm start",
         "install": "concurrently 'npm:install:frontend' 'npm:install:backend'",
-        "install:frontend": "cd qualipro-client && npm install",
-        "install:backend": "cd qualipro-server && npm install"
+        "install:frontend": "cd client && npm install",
+        "install:backend": "cd server && npm install"
     },
     "devDependencies": {
         "concurrently": "^7.2.1"

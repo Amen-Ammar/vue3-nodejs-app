@@ -1,4 +1,4 @@
-# Boilerplate App
+# boilerplate App
 
 **Author:** Amen Ammar  
 **Version:** 1.0.0
@@ -6,7 +6,7 @@
 A full-stack project with a frontend and backend,
 using:
 - Tailwind/Quasar/Vue.js with Pinia for the frontend.
-- Node.js/Sequelize for the backend.
+- Node.js/Express/Sequelize for the backend.
 
 ---
 
@@ -14,8 +14,8 @@ using:
 ## Project Structure
 root
 │
-├─ qualipro-client/ # Frontend (Vue.js + TailwindCSS + Quasar + Pinia)
-├─ qualipro-server/ # Backend (Node.js + MySQL + Express + Sequelize)
+├─ client/ # Frontend (Vue.js + TailwindCSS + Quasar + Pinia)
+├─ server/ # Backend (Node.js + MySQL + Express + Sequelize)
 └─ package.json # Root scripts for concurrently
 
 ---
@@ -32,9 +32,9 @@ root
 
 ### 1. Prepare Environment Variables
 
-In the backend (`qualipro-server`), and In the frontend (`qualipro-client`), there are `.env-example` file. Copy it to `.env` and fill in your configuration:
+In the backend (`server`), and In the frontend (`client`), there are `.env-example` file. Copy it to `.env` and fill in your configuration:
 
-cp qualipro-server/.env-example qualipro-server/.env
+cp server/.env-example server/.env
 
 PORT=
 NODE_ENV=
@@ -49,11 +49,11 @@ DB_PASS=
 JWT_SECRET=
 JWT_EXPIRES_IN=
 
-cp qualipro-client/.env-example qualipro-client/.env
+cp client/.env-example client/.env
 
 VITE_API_BASE_URL=
 VITE_PORT=
-VITE_APP_NAME=QualiproApp
+VITE_APP_NAME=App
 
 ### 2. Install Dependencies
 
@@ -61,7 +61,7 @@ From the project root, run:
 npm install
 
 ### 3. Seeding Roles and Admin account
-cd qualipro-server/src/seeds
+cd server/src/seeds
 node seed.js
 
 ### 4. Concurrently Run BOTH projects
@@ -71,5 +71,4 @@ npm start
 # OR run each project separately
 npm run serve:frontend   # Frontend only
 npm run serve:backend    # Backend only
-
 
