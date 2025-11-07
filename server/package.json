@@ -1,5 +1,5 @@
 {
-  "name": "qualipro-server",
+  "name": "boilerplate-server",
   "version": "1.0.0",
   "author": "Amen Ammar",
   "main": "server.js",
