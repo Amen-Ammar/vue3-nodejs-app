@@ -3,8 +3,8 @@
 **Author:** Amen Ammar  
 **Version:** 1.0.0
 
-A fullstack boilerplate featuring JWT auth, CRUD, REST API, Sequelize transactions, and Vue 3 + Quasar + Pinia frontend setup.
-
+A fullstack boilerplate featuring JWT auth, CRUD, REST API, Sequelize transactions, and Vue 3 + Quasar + Pinia frontend setup,
+originally developed as a technical assessment, this project has been refined into a fullstack Vue 3 + Node.js boilerplate demonstrating best practices for rapid, scalable app development.
 ---
 
 ```bash
@@ -68,5 +68,6 @@ npm start
 # OR run each project separately
 npm run serve:frontend   # Frontend only
 npm run serve:backend    # Backend only
+
 
 
